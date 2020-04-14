@@ -15,10 +15,20 @@ const fi = (function () {
       return newArray
     },
 
-    reduce: function (collection, cbFunction, accumulator = 0) {
-      let total = accumulator ? accumulator : 0
-      Object.values(collection).forEach(x => total = cbFunction(total, x, collection))
-      return total
+    reduce: function (c = [], callback = () => {}, acc) {
+      let collection = c.slice(0)
+
+      if (!acc) {
+        acc = collection[0]
+        collection = collection.slice(1)
+      }
+
+      let len = collection.length;
+
+      for (let i = 0; i < len; i++) {
+        acc = callback(acc, collection[i], collection)
+      }
+      return acc;
     },
 
     find: function (collection, predicate) {
