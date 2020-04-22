@@ -5,7 +5,12 @@ const expect = chai.expect
 
 describe('index.js', function () {
   const unmodifiedTestArr = [1, 2, 3, 4]
-  const unmodifiedTestObj = {one: 1, two: 2, three: 3, four: 4}
+  const unmodifiedTestObj = {
+    one: 1,
+    two: 2,
+    three: 3,
+    four: 4
+  }
 
 
   describe('each', function () {
@@ -22,7 +27,9 @@ describe('index.js', function () {
     it('calls alert properly on object values', function () {
       fi.each(testObj, spy)
       const objValues = Object.values(testObj)
-      objValues.forEach((val) => { expect(spy).to.have.been.called.with(val) })
+      objValues.forEach((val) => {
+        expect(spy).to.have.been.called.with(val)
+      })
     })
 
     it('returns the original collection', function () {
@@ -80,15 +87,21 @@ describe('index.js', function () {
 
   })
 
-  describe('find', function() {
+  describe('find', function () {
     function findCBGenerator(target) {
-      return (function(currEl) { return target === currEl })
+      return (function (currEl) {
+        return target === currEl
+      })
     }
 
     const intArr = [-1, 4, 0, 1, 3, 2, 3, 4, 5, 6]
     const strArr = ["maru", "choux", "doge", "coco", "waychillgoldeneye", "trance"]
-    const objB = {b: 'b'}
-    const objArr = [{a: 'a'}, objB]
+    const objB = {
+      b: 'b'
+    }
+    const objArr = [{
+      a: 'a'
+    }, objB]
 
     it('returns the value if found', function () {
       expect(fi.find(intArr, findCBGenerator(4))).to.equal(4)
@@ -105,7 +118,9 @@ describe('index.js', function () {
     it('returns undefined if the value is not present', function () {
       expect(fi.find(intArr, findCBGenerator(7))).to.equal(undefined)
       expect(fi.find(strArr, findCBGenerator("maxwellisbestmax"))).to.equal(undefined)
-      expect(fi.find(objArr, findCBGenerator({c: 'c'}))).to.equal(undefined)
+      expect(fi.find(objArr, findCBGenerator({
+        c: 'c'
+      }))).to.equal(undefined)
     })
 
   })
@@ -177,24 +192,60 @@ describe('index.js', function () {
   describe('sortBy', function () {
     const unsortedIntArr = [3, 8, 5, 1, 9, 11, 8]
     const unsortedStringArr = ["maru", "choux", "doge", "coconut"]
-    const unsortedObjArr = [
-      {name: "dennis", age: 29},
-      {name: "dee", age: 40},
-      {name: "mac", age: 34},
-      {name: "charlie", age: 32},
-      {name: "frank", age: 72}
+    const unsortedObjArr = [{
+        name: "dennis",
+        age: 29
+      },
+      {
+        name: "dee",
+        age: 40
+      },
+      {
+        name: "mac",
+        age: 34
+      },
+      {
+        name: "charlie",
+        age: 32
+      },
+      {
+        name: "frank",
+        age: 72
+      }
     ]
-    const controlSortedObjArr = [
-      {name: "dennis", age: 29},
-      {name: "charlie", age: 32},
-      {name: "mac", age: 34},
-      {name: "dee", age: 40},
-      {name: "frank", age: 72}
+    const controlSortedObjArr = [{
+        name: "dennis",
+        age: 29
+      },
+      {
+        name: "charlie",
+        age: 32
+      },
+      {
+        name: "mac",
+        age: 34
+      },
+      {
+        name: "dee",
+        age: 40
+      },
+      {
+        name: "frank",
+        age: 72
+      }
     ]
 
-    function sortArrFunction(val) { return val }
-    function sortIntsBySin(val)   { return Math.sin(val) }
-    function sortObjFunction(obj) { return obj.age }
+    function sortArrFunction(val) {
+      return val
+    }
+
+    function sortIntsBySin(val) {
+      return Math.sin(val)
+    }
+
+    function sortObjFunction(obj) {
+      return obj.age
+    }
 
     it('correctly sorts arrays of integers and arrays of strings', function () {
       expect(arraysEqual(fi.sortBy(unsortedIntArr, sortArrFunction), [1, 3, 5, 8, 8, 9, 11])).to.equal(true)
@@ -217,13 +268,21 @@ describe('index.js', function () {
   describe('flatten', function () {
 
     it('correctly flattens a ludicrously nested array', function () {
-      const nestedArr = [1, [2, 3], [[4, 5], 6, [7, [8, 9]]]]
+      const nestedArr = [1, [2, 3],
+        [
+          [4, 5], 6, [7, [8, 9]]
+        ]
+      ]
       const flatArr = fi.flatten(nestedArr)
       expect(arraysEqual(flatArr, [1, 2, 3, 4, 5, 6, 7, 8, 9])).to.equal(true)
     })
 
     it('correctly flattens a single level when a second argument of "true" is passed', function () {
-      const nestedArr = [1, [2, 3], [[4, 5], 6, [7, [8, 9]]]]
+      const nestedArr = [1, [2, 3],
+        [
+          [4, 5], 6, [7, [8, 9]]
+        ]
+      ]
       const flatArr = fi.flatten(nestedArr, true)
       expect(arraysEqual(flatArr, [1, 2, 3, [4, 5], 6, [7, [8, 9]]])).to.equal(true)
     })
@@ -231,9 +290,15 @@ describe('index.js', function () {
   })
 
   describe('uniq', function () {
-    const objA = {a: 1, b: 2}
+    const objA = {
+      a: 1,
+      b: 2
+    }
     const objB = objA
-    const objC = {c: 3, d: 4}
+    const objC = {
+      c: 3,
+      d: 4
+    }
 
     it('removes duplicate values from an array', function () {
       expect(arraysEqual(fi.uniq([1, 1, 2, 3, 2, 4, 5, 6, 1]), [1, 2, 3, 4, 5, 6])).to.equal(true)
@@ -309,24 +374,25 @@ function objectsEqual(objA, objB) {
 
 // MODIFIED FROM SO user 'fncomp': https://stackoverflow.com/questions/1003855/howto-benchmark-javascript-code
 function bench(method, iterations, args, context) {
-    var start = 0;
-    function timer(action) {
-        var currTime = Date.now();
-        if (action === 'start') {
-            start = currTime;
-            return 0;
-        } else if (action === 'stop') {
-            var elapsed = currTime - start;
-            start = 0;
-            return elapsed;
-        }
-    };
+  var start = 0;
 
-    timer('start')
-    for (let i = 0; i < iterations; i++)
-        method.apply(context, args)
-    var totalTime = timer('stop')
-    // console.log("Mean execution time was: ", totalTime / parseFloat(iterations));
-    // console.log("Sum execution time was: ", totalTime);
-    return totalTime / parseFloat(iterations);
+  function timer(action) {
+    var currTime = Date.now();
+    if (action === 'start') {
+      start = currTime;
+      return 0;
+    } else if (action === 'stop') {
+      var elapsed = currTime - start;
+      start = 0;
+      return elapsed;
+    }
+  };
+
+  timer('start')
+  for (let i = 0; i < iterations; i++)
+    method.apply(context, args)
+  var totalTime = timer('stop')
+  // console.log("Mean execution time was: ", totalTime / parseFloat(iterations));
+  // console.log("Sum execution time was: ", totalTime);
+  return totalTime / parseFloat(iterations);
 };
